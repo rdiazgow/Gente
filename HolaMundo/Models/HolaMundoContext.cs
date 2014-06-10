@@ -12,9 +12,22 @@ namespace HolaMundo.Models
         // Nota: esta operación destruirá y volverá a crear la base de datos con cada cambio de modelo.
         // 
         // System.Data.Entity.Database.SetInitializer(new System.Data.Entity.DropCreateDatabaseIfModelChanges<HolaMundo.Models.HolaMundoContext>());
+        
+        
+        private string _schemaName = string.Empty;
+        
 
-        public HolaMundoContext() : base("name=HolaMundoContext")
+        public HolaMundoContext(string connectionName, string schemaName) 
+        : base(connectionName)
         {
+            _schemaName= schemaName;
+        }
+        
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            Database.SetInitializer<HolaMundoContext>(new CreateDatabaseIfNotExists<HolaMundoContext>());
+            modelBuilder.Entity<Gente>().ToTable("Gentes", _schemaName);
+            base.OnModelCreating(modelBuilder);
         }
 
         public DbSet<Gente> Gentes { get; set; }
