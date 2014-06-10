@@ -14,21 +14,9 @@ namespace HolaMundo.Models
         // System.Data.Entity.Database.SetInitializer(new System.Data.Entity.DropCreateDatabaseIfModelChanges<HolaMundo.Models.HolaMundoContext>());
         
         
-        private string _schemaName = string.Empty;
-        
-
-        public HolaMundoContext(string connectionName, string schemaName) 
-        : base(connectionName)
-        {
-            _schemaName= schemaName;
-        }
-        
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            Database.SetInitializer<HolaMundoContext>(new CreateDatabaseIfNotExists<HolaMundoContext>());
-            modelBuilder.Entity<Gente>().ToTable("Gentes", _schemaName);
-            base.OnModelCreating(modelBuilder);
-        }
+         public HolaMundoContext() : base("name=HolaMundoContext")
+         {
+         }
 
         public DbSet<Gente> Gentes { get; set; }
     }
